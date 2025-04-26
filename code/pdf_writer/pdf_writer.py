@@ -23,7 +23,6 @@ def calculate_duties_and_fees(input_data):
     """
     # Extract input values
     hts_number = input_data.get("hts_number", "")
-    country_of_origin = input_data.get("country_of_origin", "")
     description = input_data.get("description", "")
     value = float(input_data.get("value", 0))
     basic_duty_rate = float(input_data.get("basic_duty_rate", 0)) / 100  # Convert percentage to decimal
@@ -34,8 +33,11 @@ def calculate_duties_and_fees(input_data):
     gross_weight = input_data.get("gross_weight", "10.00")
     manifest_qty = input_data.get("manifest_qty", "100")
     net_quantity = input_data.get("net_quantity", "100")
-    htsus_units = input_data.get("htsus_units", "PCS")
-    relationship_code = input_data.get("relationship_code", "N")
+    # htsus_units = input_data.get("htsus_units", "PCS")
+    
+    # Set default values for removed fields
+    country_of_origin = "CN"  # Default to China
+    relationship_code = "N"   # Default to No relationship
     
     # Calculate duty amounts
     basic_duty = value * basic_duty_rate
@@ -142,7 +144,7 @@ def calculate_duties_and_fees(input_data):
         "total40[0]": total_payable_str,
         
         # Other Fees (Calculated)
-        "descriptiona1[1]": f"{hts_number}                   {gross_weight}kg    {manifest_qty}             {net_quantity}{htsus_units}",
+        "descriptiona1[1]": f"{hts_number}                   {gross_weight}kg    {manifest_qty}             {net_quantity}",
         "amount1[1]": total_duty_str,
         "descriptiona1[2]": "Merchandise Processing Fee",
         "amount1[2]": mpf_str,

@@ -1,6 +1,5 @@
 {
   "hts_number": "3304.10.0000",
-  "country_of_origin": "CN",
   "description": "Lip make-up preparations (Lipstick)",
   "value": "10000.00",
   "basic_duty_rate": "0",
@@ -8,7 +7,5 @@
   "other_rate": "145",
   "gross_weight": "25.50",
   "manifest_qty": "200",
-  "net_quantity": "180",
-  "htsus_units": "PCS",
-  "relationship_code": "N"
+  "net_quantity": "180"
 }
