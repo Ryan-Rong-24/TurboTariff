@@ -275,6 +275,7 @@ def main():
     # Fill the PDF form
     success = fill_pdf_form(args.input_pdf, output_pdf, form_data)
     
+    '''
     if success:
         print(f"Completed form created at: {output_pdf}")
         print("Summary of calculations:")
@@ -287,7 +288,7 @@ def main():
         print(f"  Total Payable: ${form_data['total35[0]']}")
     else:
         print("Failed to create completed form")
-
+    '''
 
 if __name__ == "__main__":
     main()
