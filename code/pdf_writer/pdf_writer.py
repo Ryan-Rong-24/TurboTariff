@@ -30,17 +30,24 @@ def calculate_duties_and_fees(input_data):
     section_301_rate = float(input_data.get("section_301_rate", 0)) / 100  # Convert percentage to decimal
     other_rate = float(input_data.get("other_rate", 0)) / 100  # Convert percentage to decimal
     
+    # Additional inputs with defaults
+    gross_weight = input_data.get("gross_weight", "10.00")
+    manifest_qty = input_data.get("manifest_qty", "100")
+    net_quantity = input_data.get("net_quantity", "100")
+    htsus_units = input_data.get("htsus_units", "PCS")
+    relationship_code = input_data.get("relationship_code", "N")
+    
     # Calculate duty amounts
     basic_duty = value * basic_duty_rate
     section_301 = value * section_301_rate
     other_fees = value * other_rate
     total_duty = basic_duty + section_301 + other_fees
     
-    # Calculate MPF (Merchandise Processing Fee) - 0.3464% of value, min $29.66, max $575.16
+    # Calculate Merchandise Processing Fee (MPF) - 0.3464% of value, min $29.66, max $575.16
     mpf = value * 0.003464
     mpf = max(29.66, min(mpf, 575.16))
     
-    # Calculate HMF (Harbor Maintenance Fee) - 0.125% of value
+    # Calculate Harbor Maintenance Fee (HMF) - 0.125% of value
     hmf = value * 0.00125
     
     # Total other fees
@@ -106,26 +113,43 @@ def calculate_duties_and_fees(input_data):
         "State[1]": "NY",
         "zip2[0]": "10001",
         
-        # Line Item Details (From Input)
-        "lineno1[0]": "001",
-        "descriptiona1[0]": hts_number,
-        "descriptionb1[0]": country_of_origin,
-        "descriptionc1[0]": description,
-        "amount1[0]": value_str,
+        # Column 28: Description of Merchandise
+        "lineno1[0]": "001",  # Line number
+        "descriptiona1[0]": description,  # Column 28A: HTSUS No. # Country of Origin
+        # "descriptionc1[0]": ,  # Description of goods
+        
+        # Note: For columns 29-34, we'll add information to the description fields
+        # since the form doesn't have specific fields for these columns
+        "descriptiona1[1]": f"Gross Weight: {gross_weight} kg",  # Column 29A
+        "descriptionb1[1]": f"{value_str}  {relationship_code}",  # Column 29B
+        #"descriptionc1[1]": f"{basic_duty_rate*100:.1f}% {ad_cvd_rate}% {irc_rate}% ",  # Column 30
+        "descriptionc1[1]": f"{basic_duty_rate*100:.1f}% {section_301_rate*100:.1f}% {other_rate*100:.1f}% ",
+
+        # Column 31: Entered Value is already handled with amount1[0]
+        # "descriptiona1[2]": f"Relationship: {relationship_code}",  # Column 31C
+        
+        # Column 32-33: Rate Information
+        # "descriptionb1[2]": basic_duty_str,  # Column 32A
+        #"descriptionc1[2]": f"",  # Column 33B/C
+        
+        # Use existing amount fields for other entries
+        # "amount1[0]": value_str,  # Column 31A: Entered Value
         
         # Duty and Fee Calculations (Calculated)
-        "duty37[0]": basic_duty_str,
-        "tax38[0]": section_301_str,
-        "other39[0]": other_fees_str,
-        "total40[0]": total_duty_str,
+        "duty37[0]": total_duty_str,
+        "tax38[0]": f'0.0',
+        "other39[0]": total_other_fees_str,
+        "total40[0]": total_payable_str,
         
         # Other Fees (Calculated)
-        "descriptiona1[1]": "MPF",
-        "amount1[1]": mpf_str,
-        "descriptiona1[2]": "HMF",
-        "amount1[2]": hmf_str,
+        "descriptiona1[1]": f"{hts_number}                   {gross_weight}kg    {manifest_qty}             {net_quantity}{htsus_units}",
+        "amount1[1]": total_duty_str,
+        "descriptiona1[2]": "Merchandise Processing Fee",
+        "amount1[2]": mpf_str,
+        "descriptiona1[3]": "Harbor Maintenance Fee",
+        "amount1[3]": hmf_str,
         "totalotherfees[0]": total_other_fees_str,
-        "total35[0]": total_payable_str,
+        "total35[0]": value_str,
         
         # Declaration (Constants)
         "decname[0]": "John Smith",
@@ -254,10 +278,10 @@ def main():
         print("Summary of calculations:")
         print(f"  Value: ${input_data.get('value', '0')}")
         print(f"  Basic Duty ({input_data.get('basic_duty_rate', '0')}%): ${form_data['duty37[0]']}")
-        print(f"  Section 301 ({input_data.get('section_301_rate', '0')}%): ${form_data['tax38[0]']}")
+        #print(f"  Section 301 ({input_data.get('section_301_rate', '0')}%): ${form_data['tax38[0]']}")
         print(f"  Other Fees ({input_data.get('other_rate', '0')}%): ${form_data['other39[0]']}")
-        print(f"  MPF: ${form_data['amount1[1]']}")
-        print(f"  HMF: ${form_data['amount1[2]']}")
+        print(f"  Merchandise Processing Fee: ${form_data['amount1[1]']}")
+        print(f"  Harbor Maintenance Fee: ${form_data['amount1[2]']}")
         print(f"  Total Payable: ${form_data['total35[0]']}")
     else:
         print("Failed to create completed form")
