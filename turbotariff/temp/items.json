@@ -1,0 +1,57 @@
+[
+  {
+    "description": "Three-seater sofa with removable cushions, fabric upholstery, color gray",
+    "quantity": 5,
+    "weight": 150,
+    "sku": "SKU-10001",
+    "hsCode": "9401.61.0000",
+    "cartons": 5,
+    "grossWeight": 150,
+    "netWeight": 140,
+    "cbm": 2.5
+  },
+  {
+    "description": "Antique brass table lamp with fabric shade, 60W bulb, height 45cm\t",
+    "quantity": 20,
+    "weight": 80,
+    "sku": "SKU-10002",
+    "hsCode": "94052091",
+    "cartons": 2,
+    "grossWeight": 80,
+    "netWeight": 75,
+    "cbm": 0.8
+  },
+  {
+    "description": "Silicone protective case for iPhone 13, shockproof, color black\t",
+    "quantity": 300,
+    "weight": 120,
+    "sku": "SKU-10003",
+    "hsCode": "39269097",
+    "cartons": 10,
+    "grossWeight": 120,
+    "netWeight": 110,
+    "cbm": 0.3
+  },
+  {
+    "description": "Espresso machine with milk frother, 15-bar pressure, stainless steel\t",
+    "quantity": 15,
+    "weight": 90,
+    "sku": "SKU-10004",
+    "hsCode": "85167100",
+    "cartons": 3,
+    "grossWeight": 90,
+    "netWeight": 85,
+    "cbm": 1
+  },
+  {
+    "description": "Women’s leather shoulder bag, adjustable strap, color brown\t",
+    "quantity": 50,
+    "weight": 70,
+    "sku": "SKU-10005",
+    "hsCode": "42022100",
+    "cartons": 5,
+    "grossWeight": 70,
+    "netWeight": 65,
+    "cbm": 0.5
+  }
+]
