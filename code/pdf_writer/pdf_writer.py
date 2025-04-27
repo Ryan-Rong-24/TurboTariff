@@ -124,8 +124,11 @@ def calculate_duties_and_fees(input_data):
         # since the form doesn't have specific fields for these columns
         "descriptiona1[1]": f"Gross Weight: {gross_weight} kg",  # Column 29A
         "descriptionb1[1]": f"{value_str}  {relationship_code}",  # Column 29B
-        #"descriptionc1[1]": f"{basic_duty_rate*100:.1f}% {ad_cvd_rate}% {irc_rate}% ",  # Column 30
-        "descriptionc1[1]": f"{basic_duty_rate*100:.1f}% {section_301_rate*100:.1f}% {other_rate*100:.1f}% ",
+        # Format for CBP Form 7501:
+        # Section A: HTSUS Rate (Basic duty rate)
+        # Section B: AD/CVD Rate (Section 301)
+        # Section C: IRC Rate (IEEPA + Reciprocal)
+        "descriptionc1[1]": f"A: {basic_duty_rate*100:.1f}% B: {section_301_rate*100:.1f}% C: {other_rate*100:.1f}% ",
 
         # Column 31: Entered Value is already handled with amount1[0]
         # "descriptiona1[2]": f"Relationship: {relationship_code}",  # Column 31C

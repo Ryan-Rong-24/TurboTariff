@@ -51,6 +51,7 @@ export function SmartSuggestions({ item, onAccept }: SmartSuggestionsProps) {
         }
         
         const data = await response.json();
+        console.log('Smart suggestions response:', data);
         
         // Format the response into our suggestion format
         const suggestion: Suggestion = {
@@ -61,6 +62,7 @@ export function SmartSuggestions({ item, onAccept }: SmartSuggestionsProps) {
           reasoning: data.reasoning || 'No reasoning provided',
         };
         
+        console.log('Processed suggestion:', suggestion);
         setSuggestions([suggestion]);
       } catch (error: any) {
         console.error('Error fetching suggestions:', error);
@@ -112,9 +114,9 @@ export function SmartSuggestions({ item, onAccept }: SmartSuggestionsProps) {
   }
 
   return (
-    <div className="space-y-4 mt-2">
+    <div className="space-y-4 w-full">
       {suggestions.map((suggestion, index) => (
-        <div key={index} className="bg-blue-50 border border-blue-200 rounded-lg p-4 overflow-hidden">
+        <div key={index} className="bg-blue-50 border border-blue-200 rounded-lg p-4 overflow-hidden shadow-md">
           <div className="flex justify-between items-start">
             <div className="flex-1 pr-4">
               <h4 className="text-sm font-medium text-blue-900">Improved Description</h4>
@@ -128,7 +130,7 @@ export function SmartSuggestions({ item, onAccept }: SmartSuggestionsProps) {
             </button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+          <div className="grid grid-cols-1 gap-3 mt-4">
             <div>
               <h4 className="text-sm font-medium text-blue-900">Suggested HS Code</h4>
               <p className="mt-1 text-sm text-blue-700 font-mono">{suggestion.hsCode}</p>
@@ -137,7 +139,7 @@ export function SmartSuggestions({ item, onAccept }: SmartSuggestionsProps) {
             <div>
               <div className="flex items-center mb-1">
                 <span className="text-sm text-blue-900 mr-2">Confidence:</span>
-                <div className="w-full bg-blue-200 rounded-full h-2">
+                <div className="w-1/2 bg-blue-200 rounded-full h-2">
                   <div
                     className="bg-blue-600 h-2 rounded-full"
                     style={{ width: `${suggestion.confidence * 100}%` }}
@@ -155,14 +157,6 @@ export function SmartSuggestions({ item, onAccept }: SmartSuggestionsProps) {
             </p>
           </div>
           
-          <div className="flex justify-end mt-3">
-            <button
-              onClick={() => onAccept(suggestion)}
-              className="text-sm text-blue-700 hover:text-blue-900 underline"
-            >
-              Apply these suggestions
-            </button>
-          </div>
         </div>
       ))}
     </div>

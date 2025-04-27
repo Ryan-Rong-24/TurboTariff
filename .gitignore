@@ -1,3 +1,7 @@
 node_modules
 # Keep environment variables out of version control
 .env
+/venv
+/turbotariff/node_modules
+.DS_Store
+htsdata_embedding_sbert.jsonl
